@@ -54,37 +54,21 @@ $(function(){
 
         }
    });
-    ul.children(":first-child").click(function (){
-        let arr=catching();
-        tableContent.children().remove();
-        let arr2 = sortingFirst(arr);
-        recreate(arr2);
+
+    let arayFunctionRef = ["first","last","yearly","firstSe","SecondSe"];
+    for (let i = 1; i <= 5; i++) {
+        let child = ":first-child";
+        if (i !== 1) {
+            child = `:nth-child(${i})`;
+        }
+        ul.children(child).click(function () {
+            let arr = catching();
+            tableContent.children().remove();
+            let arr2 = sortWith(arr,arayFunctionRef[i-1]);
+            recreate(arr2);
         });
-    ul.children(":nth-child(2)").click(function () {
-        let arr=catching();
-        tableContent.children().remove();
-        let arr2 = sortingLast(arr);
-        recreate(arr2);
-    });
-    ul.children(":nth-child(3)").click(function () {
-        let arr=catching();
-        tableContent.children().remove();
-        let arr2 = sortingYearly(arr);
-        recreate(arr2);
-    });
-    ul.children(":nth-child(4)").click(function () {
-        let arr=catching();
-        tableContent.children().remove();
-        let arr2 = sortingFirstSe(arr);
-        recreate(arr2);
-    });
-    ul.children(":nth-child(5)").click(function () {
-        let arr=catching();
-        tableContent.children().remove();
-        let arr2 = sortingSecondSe(arr);
-        recreate(arr2);
-    });
-// click event for the hamburger menu
+    }
+    // click event for the hamburger menu
 
     burger.addEventListener("click",()=>{
         nav.parent.classList.toggle("toggle");
@@ -106,10 +90,9 @@ function changeCapital(name){
     return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
-function catching(){
-    let arr=[];
-    let length = tableContent.children().length;
-    for (let i = 0; i <length ; i++) {
+function catching() {
+    let arr = [];
+    for (let i = 0; i < tableContent.children().length; i++) {
 
         arr[i] = {
             first: tableContent.children(":nth-child(" + (i + 1) + ")").children(":nth-child(1)").text(),
@@ -125,43 +108,20 @@ function catching(){
     return arr;
 }
 
-function recreate (arr){
-    for(let i=0; i<arr.length;i++) {
+function recreate(arr) {
+    for (let i = 0; i < arr.length; i++) {
         let newElement = document.createElement("ul");
-        newElement.innerHTML = "<li>" + arr[i].first+"</li><li>"+arr[i].last +"</li><li>"+arr[i].yearly+"</li><li>"
-            +arr[i].firstSe+"</li><li>"+arr[i].secondSe+"</li>";
-        newElement.classList.add("ul-"+((1+i)%2+1));
+        newElement.innerHTML = "<li>" + arr[i].first + "</li><li>" + arr[i].last + "</li><li>" + arr[i].yearly + "</li><li>"
+            + arr[i].firstSe + "</li><li>" + arr[i].secondSe + "</li>";
+        newElement.classList.add("ul-" + ((1 + i) % 2 + 1));
         tableContent.append(newElement);
     }
 }
 
-function sortingFirst(arr){
-    arr.sort((a,b)=>(a.first>=b.first)? 1:-1);
+function sortWith(arr,key) {
+    arr.sort((a,b)=>(a[key]>=b[key])? 1:-1);
     for (let i = 0; i < arr.length ; i++)
         arr[i].index = i;
     return arr;
-}
-function sortingLast(arr){
-    arr.sort((a,b)=>(a.last>=b.last)? 1:-1);
-    for (let i = 0; i < arr.length ; i++)
-        arr[i].index = i;
-    return arr;
-}
-function sortingYearly(arr){
-    arr.sort((a,b)=>(a.yearly>=b.yearly)? 1:-1);
-    for (let i = 0; i < arr.length ; i++)
-        arr[i].index = i;
-    return arr;
-}
-function sortingFirstSe(arr){
-    arr.sort((a,b)=>(a.firstSe>=b.firstSe)? 1:-1);
-    for (let i = 0; i < arr.length ; i++)
-        arr[i].index = i;
-    return arr;
-}
-function sortingSecondSe(arr){
-    arr.sort((a,b)=>(a.secondSe>=b.secondSe)? 1:-1);
-    for (let i = 0; i < arr.length ; i++)
-        arr[i].index = i;
-    return arr;
+
 }
