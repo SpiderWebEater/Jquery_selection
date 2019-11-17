@@ -111,8 +111,7 @@ function catching() {
 function recreate(arr) {
     for (let i = 0; i < arr.length; i++) {
         let newElement = document.createElement("ul");
-        newElement.innerHTML = "<li>" + arr[i].first + "</li><li>" + arr[i].last + "</li><li>" + arr[i].yearly + "</li><li>"
-            + arr[i].firstSe + "</li><li>" + arr[i].secondSe + "</li>";
+        newElement.innerHTML = `<li>${arr[i].first}</li><li>${arr[i].last}</li><li>${arr[i].yearly}</li><li>${arr[i].firstSe}</li><li>${arr[i].secondSe}</li>`;
         newElement.classList.add("ul-" + ((1 + i) % 2 + 1));
         tableContent.append(newElement);
     }
