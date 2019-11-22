@@ -30,8 +30,9 @@ $(function () {
 
     //this would allow the user to submit by pressing "Enter"
     $("html").keydown(function (event) {
-        if (event.which === 13)
+        if (event.which === 13) {
             submitt();
+        }
     });
 
 
@@ -39,14 +40,13 @@ $(function () {
     for (let i = 0; i < inputAreas.length; i++) {
         inputAreas[i].on("focus", function () {
             $(this).on("keydown", function (event) {
-                if (event.keyCode === 38 || event.keyCode === 40)
+
+                if (i !== 4 && event.keyCode === 40) {
                     event.preventDefault();
-                if (i !== 4 && event.keyCode === 40)
                     inputAreas[i + 1].focus();
-
-
-                if (i !== 0 && event.keyCode === 38) {
+                } else if (i !== 0 && event.keyCode === 38) {
                     inputAreas[i - 1].focus();
+                    event.preventDefault();
                 }
 
             })
@@ -55,10 +55,9 @@ $(function () {
 
 
     //click Event for NewStudent animation and display
-    newStudent.click(function () {
+    newStudent.on("click", function () {
         body[0].classList.toggle("display-property");
         clearInput();
-
     });
 
 
@@ -74,7 +73,7 @@ $(function () {
         if (i !== 1) {
             child = `:nth-child(${i})`;
         }
-        ul.children(child).click(function () {
+        ul.children(child).on("click",function () {
             let arr = catching();
             tableContent.children().remove();
             let arr2 = sortWith(arr, arrayFunctionRef[i - 1]);
@@ -84,7 +83,7 @@ $(function () {
 
 });
 
-// function that resets input field when submitt() is called properly
+// function that resets input field when submit() is called properly
 function clearInput() {
     errorMessage.css("display", "none");
     for (let i = 0; i < inputAreas.length; i++) {
@@ -98,9 +97,11 @@ function dontClearInput() {
     errorMessage.html("please fill in all the fields");
     errorMessage.css("display", "block");
     for (let i = 0; i < inputAreas.length; i++) {
-        if (inputAreas[i].val() === "")
+        if (inputAreas[i].val() === "") {
             inputAreas[i].css("box-shadow", " 0 0 4px red");
-        else inputAreas[i].css("box-shadow", "0 0 4px green");
+        } else {
+            inputAreas[i].css("box-shadow", "0 0 4px green")
+        }
     }
 }
 
@@ -144,8 +145,9 @@ function recreate(arr) {
 //function that sorts the array input by given key and updates the index property of the i-th object of the array
 function sortWith(arr, key) {
     arr.sort((a, b) => (a[key] >= b[key]) ? 1 : -1);
-    for (let i = 0; i < arr.length; i++)
+    for (let i = 0; i < arr.length; i++) {
         arr[i].index = i;
+    }
     return arr;
 
 }
@@ -153,7 +155,7 @@ function sortWith(arr, key) {
 
 //function that makes a tableContent list item with the given elements
 function submitt() {
-    console.log("here");
+
     if (firstName.val() !== "" && lastName.val() !== "" && yearlyAverage.val() !== "" && firstSeAverage.val() !== "" && secondSeAverage.val() !== "") {
 
         let newElement = document.createElement("ul");
@@ -163,6 +165,9 @@ function submitt() {
         tableContent.append(newElement);
         counter++;
         clearInput();
-    } else dontClearInput();
+        return;
+    }
+
+     dontClearInput();
 }
 
